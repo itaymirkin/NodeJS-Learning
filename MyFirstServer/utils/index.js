@@ -1,5 +1,8 @@
-const csv = require('./csv');
+const usersManager = require('./usersManager');
 
-module.exports = {
-  csv: csv
+module.exports = (config) => {
+  var utils = {}
+  utils.usersManager = usersManager(config.users);
+
+  return utils;
 }
