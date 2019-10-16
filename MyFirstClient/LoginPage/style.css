@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    font-family: "Exo", sans-serif;
+    color: #fff;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#login-box{
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 7px;
+  border-color: #e889ca;
+  transition: border-color 10s linear;
+  margin-top: 7% ;
+  margin-left: 38%;
+  margin-right: 38%;
+  padding-top: 2%;
+  padding-right: 4%;
+  padding-left: 4%;
+  padding-bottom: 8%;
+}
+#login-box:hover {border-color: #00a7cc }
+
+#welcome{
+  padding-left: 6%;
+
+  padding-bottom: 10pt;
+  text-transform: full-width;
+  font-style: oblique;
+  font-size: 16px;
+
+}
+.usernameinput{
+  padding-left: 6%;
+}
+#usernameText{
+  font-size: 14px;
+      color: white;
+      border: 10pt;
+      text-align: center;
+
+      -webkit-transition: all 2s;
+         -moz-transition: all 2s;
+           -o-transition: all 2s;
+              transition: all 2s;
+
+}
+#usernameText:hover{
+  margin-right: 40pt;
+  font-size: 25px;
+  padding-left: 2%;
+  color: #ff9999 ;
+   }
+
+#usernameinput{
+  position: relative;
+  width: 90%;
+}
+.passwordInput{
+  padding-left: 6%;
+}
+#passwordText{
+  font-size: 14px;
+      color: white;
+      border: 10pt;
+
+      -webkit-transition: all 2s;
+         -moz-transition: all 2s;
+           -o-transition: all 2s;
+              transition: all 2s;
+}
+
+
+#passwordText:hover {
+  font-size: 40px;
+     color: #ff9999 ;
+    }
+
+#passwordInput{
+  width: 90%;
+}
+#login-input{
+width: 80%;
+margin-top: 5%;
+padding-left: 10%;
+}
+
+.topnav {
+  overflow: hidden;
+}
+
+.topnav a {
+  float: left;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  color: white;
+}
+
+.topnav a:hover {
+  color: black;
+}
+
+.topnav a.active {
+  color:black;
+}

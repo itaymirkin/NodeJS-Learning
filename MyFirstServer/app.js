@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 const xlsx = require('xlsx')
-
-
-
+// const CSVtoJSON = require('csvtojson');
+const JSONtoCSV = require('json2csv').parse;
+const utils = require('./utils');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,55 +22,65 @@ app.get('/', (req, res) => {
   res.send('hello world');
 })
 
-
 app.post('/register', (req,res) => {
-         i=req.body
-         console.log(i);
-         fs.appendFile('accounts.xlsx',"\n"+"0"+"\t"+ i.usernamerR + i.passwordR , function (err) {
-           if (err) throw err;
-           console.log('Saved!');
-         });
-   })
+    registerDetails=req.body
+    username = req.body.username
+    password = req.body.password
 
+   CSVtoJSON().fromFile('./users.csv').then(source => {
+     registerCheck=false
+     source.forEach(existsUser => {
+       if (existsUser.username == username) {
+          console.log('username is already taken')
+          registerCheck=false
+          res.status(400).send({message:false, username:false, password:true})
+          console.log('itau');
+        }
+      else if (password.length < 6) {
+        console.log('password less than 6 letters')
+        registerCheck=false
+        res.status(400).send({message:false,username:true, password:false})
+      }
+      else {
+          registerCheck=true
+          console.log('co co co co cool')
+      }
+    })
+     if(registerCheck == true) {
+       source.push({
+           "username": username,
+           "password": password
+         });
+       const  csv = JSONtoCSV(source, { fields: ["username", "password"]})
+       fs.writeFileSync("./users.csv", csv)
+     }
+    })
+})
 
 app.post('/login', (req, res, next) => {
   loginDetails = req.body
-
-
-        var workbook = xlsx.readFile('accounts.xlsx');
-        var sheet_name_list = workbook.SheetNames;
-        var xlData =JSON.stringify((workbook.Sheets[sheet_name_list[0]]));
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        var range = xlsx.utils.decode_range(sheet['!ref']);
-        console.log((xlData));
-
-
-
-// eD= [JSON.stringify(uEnter)],
-// pD= [JSON.stringify(pEnter)],
-// console.log(eD+pD);
-let uEnter =  loginDetails.username
-let pEnter = loginDetails.password
-
-loginCheck =xlData.includes(uEnter+pEnter)
-// console.log(xlData.includes(pD))
-// checkU= xlData.includes(eD)
-// checkP= xlData.includes(pD)
-
-
-if(loginCheck == true){
-  console.log('login seccesful')
-  welcomeMessage = 'welcome ' + uEnter
-  console.log(uEnter + ' connected');
-  
-  res.send(welcomeMessage)
-} else  {
-  console.log('try again')
-  res.send('loggin failed ')
-
+  loginCheck = false
+  let insertUsername =  loginDetails.username
+  let insertPassword = loginDetails.password
+  loginDetailsCheck =
+    { username: insertUsername,
+      password: insertPassword }
+    CSVtoJSON().fromFile('./users.csv').then(source => {
+      source.forEach(existsUser => {
+        if(existsUser.username == insertUsername && existsUser.password == insertPassword){
+          loginCheck = true
         }
+      })
+          console.log(loginCheck);
+    if (loginCheck == true) {
+        res.send('hello '+ username)
+      } else {
+          res.send('try again')
+        }
+    })
+});
 
-})
+
 
 
 app.listen(3000, () => {
